@@ -11,6 +11,8 @@ interface IOffice extends Document {
     isSubscribed? : boolean;
     userCount? : number;
     slogan? : string;
+    uuid? :string;
+    createdAt:Date;
 }
 
 // Schema definition for User
@@ -32,33 +34,48 @@ const OfficeSchema = new Schema<IOffice>({
     address : {
         type :String,
         required:false,
+        default:null,
 
     },
 
     logoUrl : {
         type : String,
         required: false,
+        default:null,
     },
 
     isActive : {
         type : Boolean,
         required : false,
+        default:true,
     },
 
     isSubscribed : {
         type : Boolean,
         required: false,
+        default:false,
     },
 
     userCount : {
         type : Number,
-        required : false
+        required : false,
+        default:0
     },
 
     slogan : {
         type : String,
         required : false
     }
+    ,
+
+    uuid: {
+        type:String,
+        required:false,
+        
+    },
+    createdAt: { 
+        type: Date, 
+        default: Date.now }
 });
 
 // Model creation for User

@@ -6,10 +6,11 @@ export interface OfficeInterface {
     email:string;
     phone:string;
     address ? :string | null;
-    logoUrl? : string;
+    logoUrl? : string | null;
     isActive : boolean;
-    isSubscribed? : boolean;
+    isSubscribed? : boolean ;
     userCount? : number;
     slogan? : string;
-
+    uuid? :string;
+    createdAt?:Date;
 }
