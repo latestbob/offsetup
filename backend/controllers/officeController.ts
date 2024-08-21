@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import officeModel from '../models/officeModel';
 import { OfficeInterface } from '../interfaces/officeInterface';
 
+import { validationResult } from 'express-validator';
 export async function getAllOffice(req : Request, res : Response){
 
 
@@ -35,15 +36,25 @@ export async function getAllOffice(req : Request, res : Response){
 
 export async function createOffice(req :Request<{}, {}, OfficeInterface>, res:Response){
 
-    const {name, email, phone, slogan} = req.body;
+
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()){
+
+    //return 400
+
+    return res.status(400).json({
+        "status":"failed",
+        "error":errors.array(),
+    })
+  }
+
         try {
 
             //check if office name already exists using their email and name
 
 
-            const office =  new officeModel({
-                name,
-            });
+            const office =  new officeModel(req.body);
             
             await office.save();
 
@@ -56,7 +67,7 @@ export async function createOffice(req :Request<{}, {}, OfficeInterface>, res:Re
             console.error(error);
 
             return res.status(400).json({
-                "status":"success",
+                "status":"failed",
                 "message":"An error occurred while creating an office"
             });
         }
