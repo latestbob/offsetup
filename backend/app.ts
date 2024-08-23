@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import officeRouter from './routes/officeRoute';
 import mongoose from 'mongoose';
-
+import departRouter from './routes/departRoute';
 
  dotenv.config();
 // initialize express
@@ -21,6 +21,10 @@ app.get('/',function(req, res){
 
 // Register officeRouter with the correct path prefix
 app.use('/api/office', officeRouter);
+
+//department routes
+
+app.use('/api/department',departRouter);
 
 
 
