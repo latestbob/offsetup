@@ -3,6 +3,7 @@ import departModel from '../models/departmentModel';
 import { DepartInterface } from '../interfaces/departInterface';
 import officeModel from '../models/officeModel';
 import { validationResult } from 'express-validator';
+import { Types } from 'mongoose';
 
 
 export async function createDepartment(req:Request<{},{}, DepartInterface>, res:Response){
@@ -54,3 +55,72 @@ export async function createDepartment(req:Request<{},{}, DepartInterface>, res:
 }
 
 
+// all departments in an office
+
+export async function getDepartments(req:Request<{uuid:string},{}, DepartInterface>, res:Response){
+
+
+    const uuid :string = req.params.uuid;
+
+
+
+    try {
+
+        // check if oofice with such uuid exists;
+
+        const check = await officeModel.findOne({uuid:uuid});
+
+        if(!check){
+            return res.status(400).json({
+                status:"failed",
+                error:"office not found",
+            });
+
+
+        }
+
+        else{
+            const department = await departModel.find({office_uuid:uuid});
+
+            return res.status(200).json({
+                status:"success",
+                departments : department
+            });
+        }
+
+       
+        
+    } catch (error) {
+        return res.status(200).json({
+            status:"failed",
+            message: 'Server Error', error,
+        });
+    }
+}
+
+//update unique department
+
+
+export async function updateDepartment(req:Request<{id:Types.ObjectId},{}, DepartInterface>, res:Response){
+
+
+    const id = req.params.id;
+
+    if(!Types.ObjectId.isValid(id)){
+        //check if its nt a valid id
+
+        return res.status(400).json({
+            status:"failed",
+            error:"Not a valid id format"
+        });
+    }
+
+    try {
+
+        //continue here
+        
+    } catch (error) {
+        
+    }
+
+}

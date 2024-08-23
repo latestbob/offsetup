@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createDepartment } from '../controllers/departmentController';
+import { createDepartment , getDepartments} from '../controllers/departmentController';
 import { validateDepartment } from '../middlewares/validaeDepartments';
 
 
@@ -11,6 +11,9 @@ const departRouter = Router ();
 
 departRouter.post('/create', validateDepartment, createDepartment);
 
+//get departments in an office
+
+departRouter.get('/office/:uuid', getDepartments);
 
 
 
