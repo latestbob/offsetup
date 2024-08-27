@@ -108,6 +108,9 @@ export async function LoginUser(req:Request<{}, {}, UserInterface>, res:Response
         // Create a token
         const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
+       
+
+
         return res.status(200).json({
             status:"sucess",
            user:user,
@@ -117,5 +120,29 @@ export async function LoginUser(req:Request<{}, {}, UserInterface>, res:Response
    } catch (error) {
         console.error(error);
    }
+
+}
+
+
+// GET USER
+
+export async function getUser(req:Request<{}, {}, UserInterface>, res:Response){
+
+    try {
+        const userEmail = (req as any).user?.email; 
+
+        if (!userEmail) {
+            return res.status(401).json({ message: 'User not authenticated' });
+          }
+        
+          const user = await userModel.findOne({email:userEmail});
+          if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+          }
+        
+          res.json(user);
+    } catch (error) {
+        console.error(error);
+    }
 
 }
