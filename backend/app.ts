@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import officeRouter from './routes/officeRoute';
 import mongoose from 'mongoose';
 import departRouter from './routes/departRoute';
+import authRouter from './routes/authRoute';
 
  dotenv.config();
 // initialize express
@@ -25,6 +26,10 @@ app.use('/api/office', officeRouter);
 //department routes
 
 app.use('/api/department',departRouter);
+
+//authentication routes
+
+app.use('/api/auth', authRouter);
 
 
 

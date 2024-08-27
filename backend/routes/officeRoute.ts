@@ -18,7 +18,7 @@ officeRouter.post('/create',validateOffice, createOffice); // to use middleware 
 
 officeRouter.put('/update/:uuid',officUpdate); // to use middleware office sudo admin
 
-officeRouter.delete('/delete/:uuid', deleteOffice);
+officeRouter.delete('/delete/:uuid', deleteOffice); //super site admin middleware
 
 
 

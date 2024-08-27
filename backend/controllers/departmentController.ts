@@ -4,6 +4,7 @@ import { DepartInterface } from '../interfaces/departInterface';
 import officeModel from '../models/officeModel';
 import { validationResult } from 'express-validator';
 import { Types } from 'mongoose';
+import { error } from 'console';
 
 
 export async function createDepartment(req:Request<{},{}, DepartInterface>, res:Response){
@@ -115,12 +116,73 @@ export async function updateDepartment(req:Request<{id:Types.ObjectId},{}, Depar
         });
     }
 
+    const errors = validationResult(req);
+
+
+   if(!errors.isEmpty()){
+        return res.status(400).json({
+            status:"failed",
+            error: errors.array(),
+        });
+   }
+
     try {
 
         //continue here
+
+        const department = await departModel.findByIdAndUpdate(id, req.body, {new:true});
+
+
+        if(!department){
+            return res.status(400).json({
+                status:"failed",
+                error:"department not found"
+            });
+        }
+
+        return res.status(200).json({
+            status : "success",
+            department : department
+        });
         
     } catch (error) {
-        
+        console.error(error);
+    }
+
+}
+
+
+//delete department
+
+export async function deleteDepartment(req:Request <{id:Types.ObjectId}, {}, DepartInterface>, res:Response){
+
+    // validate id
+
+    const id = req.params.id;
+
+    if(!Types.ObjectId.isValid(id)){
+        return res.status(400).json({
+            status:"failed",
+            error:"Not a valid Id format"
+        });
+    }
+
+    try {
+        const department = await departModel.findByIdAndDelete(id);
+
+        if(!department){
+            return res.status(400).json({
+                status:"failed",
+                error:"Unable delete department"
+            });
+        }
+
+        return res.status(200).json({
+            status:"success",
+            message:"department deleted successfully"
+        });
+    } catch (error) {
+        console.error(error);
     }
 
 }

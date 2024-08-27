@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { createDepartment , getDepartments} from '../controllers/departmentController';
-import { validateDepartment } from '../middlewares/validaeDepartments';
+import { createDepartment , getDepartments, updateDepartment, deleteDepartment} from '../controllers/departmentController';
+import { validateDepartment, updateMiddleware } from '../middlewares/validaeDepartments';
 
 
 
@@ -9,11 +9,19 @@ const departRouter = Router ();
 
 //create department
 
-departRouter.post('/create', validateDepartment, createDepartment);
+departRouter.post('/create', validateDepartment, createDepartment); //sudo admin
 
 //get departments in an office
 
-departRouter.get('/office/:uuid', getDepartments);
+departRouter.get('/office/:uuid', getDepartments); 
+
+//update department   //sudo admin
+
+departRouter.put('/:id',updateMiddleware, updateDepartment);
+
+//delete department // sudo admin
+
+departRouter.delete("/:id", deleteDepartment);
 
 
 

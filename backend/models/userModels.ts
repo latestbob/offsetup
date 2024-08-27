@@ -17,6 +17,7 @@ interface IUser  extends Document {
     isActive?:boolean;
     password:string;
     createdAt?:Date;
+    updatedAt?:Date | null;
 
 
 }
@@ -95,6 +96,11 @@ const UserSchema = new Schema<IUser>({
     createdAt : {
         type : Date,
         default : Date.now,
+    },
+
+    updatedAt : {
+        type : Date,
+        default :null,
     }
 
 

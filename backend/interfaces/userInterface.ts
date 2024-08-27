@@ -17,4 +17,6 @@ export interface UserInterface {
     isActive?:boolean;
     password:string;
     createdAt?:Date;
+    updatedAt?:Date | null;
+    
 }
